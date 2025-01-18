@@ -2,15 +2,32 @@
 namespace PS4Controller {
     const serialDelimiter = "\n";
     let buttonHandlers: { [key: string]: () => void } = {};
+    let analogHandlers: { [key: string]: (value: number) => void } = {};
+    let connectionHandlers: { [key: string]: () => void } = {};
 
-    // Registra eventos específicos para cada botão
+    // Processa os dados recebidos
     function processIncomingData(data: string): void {
         let parts = data.split("@");
         if (parts.length == 2) {
             let key = parts[0];
             let value = parseInt(parts[1]);
+
+            // Evento de botão pressionado
             if (value === 1 && buttonHandlers[key]) {
-                buttonHandlers[key](); // Chama o evento associado ao botão
+                buttonHandlers[key]();
+            }
+
+            // Evento de leitura analógica
+            if (!isNaN(value) && analogHandlers[key]) {
+                analogHandlers[key](value);
+            }
+
+            // Eventos de conexão/desconexão
+            if (key === "CONECTADO" && connectionHandlers["connected"]) {
+                connectionHandlers["connected"]();
+            }
+            if (key === "DESCONECTADO" && connectionHandlers["disconnected"]) {
+                connectionHandlers["disconnected"]();
             }
         }
     }
@@ -22,50 +39,38 @@ namespace PS4Controller {
     });
 
     /**
-     * Registra um evento para quando o botão X for pressionado.
+     * Registra um evento para quando o botão for pressionado.
+     * @param handler A função a ser executada.
      */
-    //% block="quando botão X for pressionado"
-    export function onButtonXPressed(handler: () => void): void {
-        buttonHandlers["BOTAO_X"] = handler;
+    //% block="quando botão $button for pressionado"
+    //% button.defl="BOTAO_X"
+    export function onButtonPressed(button: string, handler: () => void): void {
+        buttonHandlers[button] = handler;
     }
 
     /**
-     * Registra um evento para quando o botão Círculo for pressionado.
+     * Registra um evento para leitura de valor analógico.
+     * @param handler A função que recebe o valor.
      */
-    //% block="quando botão Círculo for pressionado"
-    export function onButtonCirclePressed(handler: () => void): void {
-        buttonHandlers["BOTAO_CIRCULO"] = handler;
+    //% block="quando valor analógico $axis mudar"
+    //% axis.defl="STICK_ESQ_X"
+    export function onAnalogValueReceived(axis: string, handler: (value: number) => void): void {
+        analogHandlers[axis] = handler;
     }
 
     /**
-     * Registra um evento para quando o botão Triângulo for pressionado.
+     * Registra um evento para quando o controle se conectar.
      */
-    //% block="quando botão Triângulo for pressionado"
-    export function onButtonTrianglePressed(handler: () => void): void {
-        buttonHandlers["BOTAO_TRIANGULO"] = handler;
+    //% block="quando controle for conectado"
+    export function onConnected(handler: () => void): void {
+        connectionHandlers["connected"] = handler;
     }
 
     /**
-     * Registra um evento para quando o botão Quadrado for pressionado.
+     * Registra um evento para quando o controle se desconectar.
      */
-    //% block="quando botão Quadrado for pressionado"
-    export function onButtonSquarePressed(handler: () => void): void {
-        buttonHandlers["BOTAO_QUADRADO"] = handler;
-    }
-
-    /**
-     * Registra um evento para quando o botão L1 for pressionado.
-     */
-    //% block="quando botão L1 for pressionado"
-    export function onButtonL1Pressed(handler: () => void): void {
-        buttonHandlers["L1"] = handler;
-    }
-
-    /**
-     * Registra um evento para quando o botão R1 for pressionado.
-     */
-    //% block="quando botão R1 for pressionado"
-    export function onButtonR1Pressed(handler: () => void): void {
-        buttonHandlers["R1"] = handler;
+    //% block="quando controle for desconectado"
+    export function onDisconnected(handler: () => void): void {
+        connectionHandlers["disconnected"] = handler;
     }
 }
