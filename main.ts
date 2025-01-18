@@ -14,20 +14,20 @@ namespace PS4Controller {
 
             // Evento de botão pressionado
             if (value === 1 && buttonHandlers[key]) {
-                buttonHandlerskey;
+                buttonHandlers[key]();
             }
 
             // Evento de leitura analógica
             if (!isNaN(value) && analogHandlers[key]) {
-                analogHandlerskey;
+                analogHandlers[key](value);
             }
 
             // Eventos de conexão/desconexão
             if (key === "CONECTADO" && connectionHandlers["connected"]) {
-                connectionHandlers"connected";
+                connectionHandlers["connected"]();
             }
             if (key === "DESCONECTADO" && connectionHandlers["disconnected"]) {
-                connectionHandlers"disconnected";
+                connectionHandlers["disconnected"]();
             }
         }
     }
@@ -43,10 +43,16 @@ namespace PS4Controller {
      * @param handler A função a ser executada.
      */
     //% block="quando botão $button for pressionado"
-    //% button.defl="BOTAO_X"
-    //% button.shadow="dropdown"
-    //% button.options="BOTAO_X|BOTAO_CIRCULO|BOTAO_TRIANGULO|BOTAO_QUADRADO|L1|R1"
-    export function onButtonPressed(button: string, handler: () => void): void {
+    //% button.fieldEditor="gridpicker"
+    //% button.fieldOptions.columns=2
+    export function onButtonPressed(button: 
+        | "BOTAO_X" 
+        | "BOTAO_CIRCULO" 
+        | "BOTAO_TRIANGULO" 
+        | "BOTAO_QUADRADO" 
+        | "L1" 
+        | "R1", 
+        handler: () => void): void {
         buttonHandlers[button] = handler;
     }
 
@@ -55,10 +61,16 @@ namespace PS4Controller {
      * @param handler A função que recebe o valor.
      */
     //% block="quando valor analógico $axis mudar"
-    //% axis.defl="JOY_ESQ_X"
-    //% axis.shadow="dropdown"
-    //% axis.options="JOY_ESQ_X|JOY_ESQ_Y|JOY_DIR_X|JOY_DIR_Y|L2|R2"
-    export function onAnalogValueReceived(axis: string, handler: (value: number) => void): void {
+    //% axis.fieldEditor="gridpicker"
+    //% axis.fieldOptions.columns=2
+    export function onAnalogValueReceived(axis: 
+        | "JOY_ESQ_X" 
+        | "JOY_ESQ_Y" 
+        | "JOY_DIR_X" 
+        | "JOY_DIR_Y" 
+        | "L2" 
+        | "R2", 
+        handler: (value: number) => void): void {
         analogHandlers[axis] = handler;
     }
 
