@@ -5,21 +5,6 @@ namespace PS4Controller {
     let analogHandlers: { [key: string]: (value: number) => void } = {};
     let connectionHandlers: { [key: string]: () => void } = {};
 
-    // Definindo os valores predefinidos
-    const BOTAO_X = "BOTAO_X";
-    const BOTAO_CIRCULO = "BOTAO_CIRCULO";
-    const BOTAO_TRIANGULO = "BOTAO_TRIANGULO";
-    const BOTAO_QUADRADO = "BOTAO_QUADRADO";
-    const L1 = "L1";
-    const R1 = "R1";
-
-    const JOY_ESQ_X = "JOY_ESQ_X";
-    const JOY_ESQ_Y = "JOY_ESQ_Y";
-    const JOY_DIR_X = "JOY_DIR_X";
-    const JOY_DIR_Y = "JOY_DIR_Y";
-    const L2 = "L2";
-    const R2 = "R2";
-
     // Processa os dados recebidos
     function processIncomingData(data: string): void {
         let parts = data.split("@");
@@ -29,20 +14,20 @@ namespace PS4Controller {
 
             // Evento de botão pressionado
             if (value === 1 && buttonHandlers[key]) {
-                buttonHandlers[key]();
+                buttonHandlerskey;
             }
 
             // Evento de leitura analógica
             if (!isNaN(value) && analogHandlers[key]) {
-                analogHandlers[key](value);
+                analogHandlerskey;
             }
 
             // Eventos de conexão/desconexão
             if (key === "CONECTADO" && connectionHandlers["connected"]) {
-                connectionHandlers["connected"]();
+                connectionHandlers"connected";
             }
             if (key === "DESCONECTADO" && connectionHandlers["disconnected"]) {
-                connectionHandlers["disconnected"]();
+                connectionHandlers"disconnected";
             }
         }
     }
@@ -58,8 +43,10 @@ namespace PS4Controller {
      * @param handler A função a ser executada.
      */
     //% block="quando botão $button for pressionado"
-    //% button.defl=BOTAO_X
-    export function onButtonPressed(button: "BOTAO_X" | "BOTAO_CIRCULO" | "BOTAO_TRIANGULO" | "BOTAO_QUADRADO" | "L1" | "R1", handler: () => void): void {
+    //% button.defl="BOTAO_X"
+    //% button.shadow="dropdown"
+    //% button.options="BOTAO_X|BOTAO_CIRCULO|BOTAO_TRIANGULO|BOTAO_QUADRADO|L1|R1"
+    export function onButtonPressed(button: string, handler: () => void): void {
         buttonHandlers[button] = handler;
     }
 
@@ -68,8 +55,10 @@ namespace PS4Controller {
      * @param handler A função que recebe o valor.
      */
     //% block="quando valor analógico $axis mudar"
-    //% axis.defl=JOY_ESQ_X
-    export function onAnalogValueReceived(axis: "JOY_ESQ_X" | "JOY_ESQ_Y" | "JOY_DIR_X" | "JOY_DIR_Y" | "L2" | "R2", handler: (value: number) => void): void {
+    //% axis.defl="JOY_ESQ_X"
+    //% axis.shadow="dropdown"
+    //% axis.options="JOY_ESQ_X|JOY_ESQ_Y|JOY_DIR_X|JOY_DIR_Y|L2|R2"
+    export function onAnalogValueReceived(axis: string, handler: (value: number) => void): void {
         analogHandlers[axis] = handler;
     }
 
