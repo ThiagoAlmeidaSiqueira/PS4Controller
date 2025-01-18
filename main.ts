@@ -5,6 +5,21 @@ namespace PS4Controller {
     let analogHandlers: { [key: string]: (value: number) => void } = {};
     let connectionHandlers: { [key: string]: () => void } = {};
 
+    // Definindo os valores predefinidos
+    const BOTAO_X = "BOTAO_X";
+    const BOTAO_CIRCULO = "BOTAO_CIRCULO";
+    const BOTAO_TRIANGULO = "BOTAO_TRIANGULO";
+    const BOTAO_QUADRADO = "BOTAO_QUADRADO";
+    const L1 = "L1";
+    const R1 = "R1";
+
+    const JOY_ESQ_X = "JOY_ESQ_X";
+    const JOY_ESQ_Y = "JOY_ESQ_Y";
+    const JOY_DIR_X = "JOY_DIR_X";
+    const JOY_DIR_Y = "JOY_DIR_Y";
+    const L2 = "L2";
+    const R2 = "R2";
+
     // Processa os dados recebidos
     function processIncomingData(data: string): void {
         let parts = data.split("@");
@@ -43,8 +58,8 @@ namespace PS4Controller {
      * @param handler A função a ser executada.
      */
     //% block="quando botão $button for pressionado"
-    //% button.defl="BOTAO_X"
-    export function onButtonPressed(button: string, handler: () => void): void {
+    //% button.defl=BOTAO_X
+    export function onButtonPressed(button: "BOTAO_X" | "BOTAO_CIRCULO" | "BOTAO_TRIANGULO" | "BOTAO_QUADRADO" | "L1" | "R1", handler: () => void): void {
         buttonHandlers[button] = handler;
     }
 
@@ -53,8 +68,8 @@ namespace PS4Controller {
      * @param handler A função que recebe o valor.
      */
     //% block="quando valor analógico $axis mudar"
-    //% axis.defl="STICK_ESQ_X"
-    export function onAnalogValueReceived(axis: string, handler: (value: number) => void): void {
+    //% axis.defl=JOY_ESQ_X
+    export function onAnalogValueReceived(axis: "JOY_ESQ_X" | "JOY_ESQ_Y" | "JOY_DIR_X" | "JOY_DIR_Y" | "L2" | "R2", handler: (value: number) => void): void {
         analogHandlers[axis] = handler;
     }
 
