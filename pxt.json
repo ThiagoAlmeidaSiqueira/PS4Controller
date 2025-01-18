@@ -1,7 +1,7 @@
 {
   "name": "PS4Controller",
   "description": "Pacote para receber eventos de botões do controle PS4 via UART.",
-  "version": "0.2.1",
+  "version": "0.3.1",
   "files": [
     "main.ts"
   ],
