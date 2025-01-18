@@ -1,33 +1,47 @@
 # PS4Controller - Controle PS4 no micro:bit via UART
 
-Este é um pacote PXT para o MakeCode que permite receber eventos de botões de um controle PS4 conectado a um ESP32, comunicando-se via UART.
+Este pacote PXT permite receber eventos de botões, leituras analógicas e estados de conexão de um controle PS4 conectado a um ESP32.
 
 ---
 
 ## Funcionalidades
 
-Este pacote fornece blocos para capturar eventos de botões pressionados no controle PS4 e executar ações correspondentes no micro:bit. Os eventos disponíveis incluem:
-
-- **Botão X** (`BOTAO_X`)
-- **Botão Círculo** (`BOTAO_CIRCULO`)
-- **Botão Triângulo** (`BOTAO_TRIANGULO`)
-- **Botão Quadrado** (`BOTAO_QUADRADO`)
-- **Botão L1** (`L1`)
-- **Botão R1** (`R1`)
+- **Eventos de botões digitais:** Captura quando botões como `BOTAO_X` ou `BOTAO_CIRCULO` são pressionados.
+- **Leitura de valores analógicos:** Monitora os valores dos eixos dos sticks analógicos (`STICK_ESQ_X`, `STICK_DIR_Y`, etc.).
+- **Estado de conexão:** Detecta quando o controle PS4 é conectado ou desconectado.
 
 ---
 
-## Como Usar
+## Blocos Disponíveis
 
-### Etapa 1: Configuração de Hardware
+### Botões Digitais
+- **Quando botão X for pressionado**
+- **Quando botão Círculo for pressionado**
 
-1. Conecte um ESP32 com o firmware configurado para receber dados do controle PS4 e repassá-los via UART para o micro:bit.
-2. Conecte os pinos UART entre o ESP32 e o micro:bit:
-   - **RX** do micro:bit -> **TX** do ESP32
-   - **TX** do micro:bit -> **RX** do ESP32
-   - Conecte GND entre os dois dispositivos.
+### Leituras Analógicas
+- **Quando valor analógico STICK_ESQ_X mudar**
 
-### Etapa 2: Adicionar o Pacote
+### Estado de Conexão
+- **Quando controle for conectado**
+- **Quando controle for desconectado**
 
-1. No MakeCode, clique em **Configurações** > **Extensões**.
-2. Insira o link para este pacote no campo de busca:
+---
+
+## Exemplo de Uso
+
+```typescript
+PS4Controller.onButtonPressed("BOTAO_X", function () {
+    basic.showString("X");
+});
+
+PS4Controller.onAnalogValueReceived("STICK_ESQ_X", function (value) {
+    basic.showNumber(value);
+});
+
+PS4Controller.onConnected(function () {
+    basic.showIcon(IconNames.Happy);
+});
+
+PS4Controller.onDisconnected(function () {
+    basic.showIcon(IconNames.Sad);
+});
