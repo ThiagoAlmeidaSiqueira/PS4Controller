@@ -1,8 +1,26 @@
+export enum button {
+    BOTAO_X,
+    BOTAO_CIRCULO,
+    BOTAO_TRIANGULO,
+    BOTAO_QUADRADO,
+    L1,
+    R1
+}
+
+export enum axis {
+    JOY_ESQ_X,
+    JOY_ESQ_Y,
+    JOY_DIR_X,
+    JOY_DIR_Y,
+    L2,
+    R2
+}
+
 //% weight=100 color=#00A0E9 icon="\uf11b" block="PS4 Controller"
 namespace PS4Controller {
     const serialDelimiter = "\n";
-    let buttonHandlers: { [key: string]: () => void } = {};
-    let analogHandlers: { [key: string]: (value: number) => void } = {};
+    let buttonHandlers: { [key: button]: () => void } = {};
+    let analogHandlers: { [key: axis]: (value: number) => void } = {};
     let connectionHandlers: { [key: string]: () => void } = {};
 
     // Processa os dados recebidos
@@ -13,13 +31,13 @@ namespace PS4Controller {
             let value = parseInt(parts[1]);
 
             // Evento de botão pressionado
-            if (value === 1 && buttonHandlers[key]) {
-                buttonHandlers[key]();
+            if (value === 1 && buttonHandlers[key as button]) {
+                buttonHandlers[key as button]();
             }
 
             // Evento de leitura analógica
-            if (!isNaN(value) && analogHandlers[key]) {
-                analogHandlers[key](value);
+            if (!isNaN(value) && analogHandlers[key as axis]) {
+                analogHandlers[key as axis](value);
             }
 
             // Eventos de conexão/desconexão
@@ -43,16 +61,8 @@ namespace PS4Controller {
      * @param handler A função a ser executada.
      */
     //% block="quando botão $button for pressionado"
-    //% button.fieldEditor="gridpicker"
-    //% button.fieldOptions.columns=2
-    export function onButtonPressed(button: 
-        | "BOTAO_X" 
-        | "BOTAO_CIRCULO" 
-        | "BOTAO_TRIANGULO" 
-        | "BOTAO_QUADRADO" 
-        | "L1" 
-        | "R1", 
-        handler: () => void): void {
+    //% button.defl="BOTAO_X"
+    export function onButtonPressed(button: button, handler: () => void): void {
         buttonHandlers[button] = handler;
     }
 
@@ -61,16 +71,8 @@ namespace PS4Controller {
      * @param handler A função que recebe o valor.
      */
     //% block="quando valor analógico $axis mudar"
-    //% axis.fieldEditor="gridpicker"
-    //% axis.fieldOptions.columns=2
-    export function onAnalogValueReceived(axis: 
-        | "JOY_ESQ_X" 
-        | "JOY_ESQ_Y" 
-        | "JOY_DIR_X" 
-        | "JOY_DIR_Y" 
-        | "L2" 
-        | "R2", 
-        handler: (value: number) => void): void {
+    //% axis.defl="JOY_ESQ_X"
+    export function onAnalogValueReceived(axis: axis, handler: (value: number) => void): void {
         analogHandlers[axis] = handler;
     }
 
