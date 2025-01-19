@@ -1,6 +1,6 @@
 //% weight=100 color=#00A0E9 icon="\uf11b" block="PS4 Controller"
 namespace PS4Controller {
-    const enum button_enum {
+    enum button_enum {
         BOTAO_X,
         BOTAO_CIRCULO,
         BOTAO_TRIANGULO,
@@ -8,7 +8,7 @@ namespace PS4Controller {
         L1,
         R1
     };
-    const enum axis_enum {
+    enum axis_enum {
         JOY_ESQ_X,
         JOY_ESQ_Y,
         JOY_DIR_X,
