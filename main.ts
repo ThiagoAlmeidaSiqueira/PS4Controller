@@ -1,22 +1,22 @@
 //% weight=100 color=#00A0E9 icon="\uf11b" block="PS4 Controller"
 namespace PS4Controller {
-    export enum button_enum {
+    const enum button_enum {
         BOTAO_X,
         BOTAO_CIRCULO,
         BOTAO_TRIANGULO,
         BOTAO_QUADRADO,
         L1,
         R1
-    }
-
-    export enum axis_enum {
+    };
+    const enum axis_enum {
         JOY_ESQ_X,
         JOY_ESQ_Y,
         JOY_DIR_X,
         JOY_DIR_Y,
         L2,
         R2
-    }
+    };
+
     const serialDelimiter = "\n";
 
     let buttonHandlers: { [key: string]: () => void } = {};
@@ -63,7 +63,7 @@ namespace PS4Controller {
     //% block="quando botão $button for pressionado"
     //% button.defl=button_enum.BOTAO_X
     export function onButtonPressed(button: button_enum, handler: () => void): void {
-        buttonHandlers[button_enum[button]] = handler; 
+        buttonHandlers[button] = handler;
     }
 
     /**
@@ -73,7 +73,7 @@ namespace PS4Controller {
     //% block="quando valor analógico $axis mudar"
     //% axis.defl=axis_enum.JOY_ESQ_X
     export function onAnalogValueReceived(axis: axis_enum, handler: (value: number) => void): void {
-        analogHandlers[axis_enum[axis]] = handler; 
+        analogHandlers[axis] = handler;
     }
 
     /**

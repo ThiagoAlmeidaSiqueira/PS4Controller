@@ -1,11 +1,19 @@
 {
-  "name": "PS4Controller",
-  "description": "Pacote para receber eventos de botões do controle PS4 via UART.",
-  "version": "0.7.5",
-  "files": [
-    "main.ts"
-  ],
-  "dependencies": {
-    "core": "*"
-  }
+    "name": "PS4Controller",
+    "version": "0.7.5",
+    "description": "Pacote para receber eventos de botões do controle PS4 via UART.",
+    "dependencies": {
+        "core": "*",
+        "microphone": "*"
+    },
+    "files": [
+        "main.ts"
+    ],
+    "targetVersions": {
+        "target": "7.0.57",
+        "targetId": "microbit"
+    },
+    "supportedTargets": [
+        "microbit"
+    ]
 }
