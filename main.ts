@@ -8,8 +8,8 @@ namespace PS4Controller {
         L1,
         R1
     }
-    
-    export enum axis_enum   {
+
+    export enum axis_enum {
         JOY_ESQ_X,
         JOY_ESQ_Y,
         JOY_DIR_X,
@@ -32,20 +32,20 @@ namespace PS4Controller {
 
             // Evento de botão pressionado
             if (value === 1 && buttonHandlers[key]) {
-                buttonHandlerskey;
+                buttonHandlers[key]();
             }
 
             // Evento de leitura analógica
             if (!isNaN(value) && analogHandlers[key]) {
-                analogHandlerskey;
+                analogHandlers[key](value);
             }
 
             // Eventos de conexão/desconexão
             if (key === "CONECTADO" && connectionHandlers["connected"]) {
-                connectionHandlers"connected";
+                connectionHandlers["connected"]();
             }
             if (key === "DESCONECTADO" && connectionHandlers["disconnected"]) {
-                connectionHandlers"disconnected";
+                connectionHandlers["disconnected"]();
             }
         }
     }
@@ -63,7 +63,7 @@ namespace PS4Controller {
     //% block="quando botão $button for pressionado"
     //% button.defl=button_enum.BOTAO_X
     export function onButtonPressed(button: button_enum, handler: () => void): void {
-        buttonHandlers[button] = handler;
+        buttonHandlers[button_enum[button]] = handler; 
     }
 
     /**
@@ -73,7 +73,7 @@ namespace PS4Controller {
     //% block="quando valor analógico $axis mudar"
     //% axis.defl=axis_enum.JOY_ESQ_X
     export function onAnalogValueReceived(axis: axis_enum, handler: (value: number) => void): void {
-        analogHandlers[axis] = handler;
+        analogHandlers[axis_enum[axis]] = handler; 
     }
 
     /**
