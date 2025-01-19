@@ -3,8 +3,7 @@
     "version": "0.7.5",
     "description": "Pacote para receber eventos de botões do controle PS4 via UART.",
     "dependencies": {
-        "core": "*",
-        "microphone": "*"
+        "core": "*"
     },
     "files": [
         "main.ts"
@@ -15,5 +14,6 @@
     },
     "supportedTargets": [
         "microbit"
-    ]
+    ],
+    "preferredEditor": "tsprj"
 }
